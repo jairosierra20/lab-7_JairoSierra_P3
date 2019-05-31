@@ -18,10 +18,13 @@ using std::vector;
 #include "Curativos.h"
 #include "Macotas.h"
 #include <fstream>
+#include <stdlib.h>
+using namespace std;
+//#include "stdafx.h"
 void Agregar();
 void Listar();
 void Eliminar();
-//void Archivo();
+void Archivo();
 vector<string> hola;
 	vector<string>maestros;
 int main(){
@@ -38,20 +41,20 @@ int main(){
 		switch(opcion){
 			case 1:
 				Agregar();
-				cout<<hola.size()<<endl;
 				break;
 			case 2:
 				Listar();
-			//cout<<maestros.size()<<endl;
 				break;
 			case 3:
 				Eliminar();
 				break;
 			case 4:
-				//Archivo();
+				Archivo();
 				break;
+			case 5:
+				cout<<"El programa se cerrara"<<endl;
 			default:
-				cout<<"La opcion es incorrecta";
+				cout<<"La opcion es incorrecta"<<endl;
 				break;
 
 		}
@@ -61,11 +64,11 @@ int main(){
 void Agregar(){
 	string nombre,nacion,edad,sexo,pelo,nombre1,nivel,rango,fuerza,resistencia,duracion,curacion,nombre2,especie;
 	string flechas,habilidad,tipo,cicatrices,victorias,tribu,arma,coles,ojos,trabajo,fuerza1,velocidad;
-	Air* a;
-	Fire* f;
-	Water* w;
-	Earth* e;
-	Non* n;
+	Air* a=new Air();
+	Fire* f=new Fire();
+	Water* w=new Water();
+	Earth* e=new Earth();
+	Non* n=new Non();
 	string cadena4="";
 	string cadena2="";
 	cout<<"Ingrese el nombre: "<<endl;
@@ -96,6 +99,7 @@ void Agregar(){
 			cin>>rango;
 			cout<<"Ingrese la fuerza: "<<endl;
 			cin>>fuerza;
+			cout<<rango<<endl;
 			poder = new Ofensivos(rango,fuerza);
 			break;
 		case 2: 
@@ -127,6 +131,7 @@ void Agregar(){
 	}
 	Persona* persona= new Persona(nacion,nombre,edad,sexo,poder);
 	cadena4=persona->toString();
+	delete poder;
 	int opcion=0;
 	cout<<"Menu de elementos"<<endl;
 	cout<<"1) Air Bender"<<endl;
@@ -190,10 +195,14 @@ void Agregar(){
 			break;
 	}
 	hola.push_back(cadena4+cadena2);
-	for (int i = 0; i < hola.size(); ++i)
-	{
-		cout<<i<<"- "<<hola[i]<<endl;
-	}
+	//liberar memoria
+	delete poder;
+	delete persona;
+	delete a;
+	delete f;
+	delete w;
+	delete e;
+	delete n;
 }
 void Listar(){
 	for (int i = 0; i < hola.size(); ++i)
@@ -228,7 +237,7 @@ void Eliminar(){
 }
 void Archivo(){
 	ofstream file;
-	file.open("./Lab#7_JairoSiera");
+	file.open("Lab#7_JairoSiera.txt",ios::out);
 	for (int i = 0; i < maestros.size(); ++i)
 	{
 		if(maestros[i] == "Water"){
@@ -247,5 +256,7 @@ void Archivo(){
 			file<<hola[i];
 		}
 	}
+	cout<<"Se creo exitosamente"<<endl;
+	file.close();
 
 }
